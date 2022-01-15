@@ -1,20 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import "react-native-gesture-handler";
+import { Colors } from "./src/colors/Colors";
+import MainStack from "./src/stacks/mainStack";
+import { store, persistor } from "./src/redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { connect, Provider } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
-export default function App() {
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <NavigationContainer
+          theme={{
+            dark: false,
+            colors: {
+              background: Colors.bgOne,
+              primary: Colors.primary,
+              border: Colors.bgOne,
+              text: "#fff",
+              card: Colors.primary,
+              notification: Colors.primary,
+            },
+          }}
+        >
+          <MainStack />
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
